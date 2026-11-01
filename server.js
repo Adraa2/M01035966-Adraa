@@ -25,7 +25,7 @@ app.use("/images", express.static(publicPath));
 var db;
 var mongoURL = "mongodb+srv://ac2265_db_user:kBJqW6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4";
 
-// Connect using modern async/await syntax
+// Asynchronous function to initialize MongoDB connection and start Express server
 async function startServer() {
     try {
         var client = new MongoClient(mongoURL);
