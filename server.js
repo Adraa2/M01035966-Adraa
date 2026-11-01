@@ -44,7 +44,7 @@ async function startServer() {
 
 startServer();
 
-// Get data from any collection from Mongo to display in frontend
+// GET endpoint: Fetch all documents dynamically from any MongoDB collection
 app.get("/collection/:collectionName", async function(request, response) {
     try {
         var collectionName = request.params.collectionName;
