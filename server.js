@@ -10,7 +10,7 @@ var app = express();
 app.use(cors());
 app.use(express.json()); 
 
-// Request logger middleware
+// Custom logger middleware to log incoming HTTP request URLs to the terminal console
 app.use(function(request, response, next) {
     console.log("In comes a request to: " + request.url);
     next();
