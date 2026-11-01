@@ -16,6 +16,7 @@ app.use(function(request, response, next) {
     next();
 });
 
+// Serve static lesson images from the 'images' directory
 var path = require("path");
 var publicPath = path.join(__dirname, "images");
 app.use("/images", express.static(publicPath));
