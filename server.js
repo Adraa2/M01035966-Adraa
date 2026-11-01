@@ -6,7 +6,7 @@ var { MongoClient } = require("mongodb");
 
 var app = express();
 
-// Enable CORS and JSON body parsing
+// Enable Cross-Origin Resource Sharing (CORS) and parse incoming JSON request bodies
 app.use(cors());
 app.use(express.json()); 
 
