@@ -21,7 +21,7 @@ var path = require("path");
 var publicPath = path.join(__dirname, "images");
 app.use("/images", express.static(publicPath));
 
-// MongoDB Atlas connection string and variable
+// MongoDB Atlas connection string and global database variables
 var db;
 var mongoURL = "mongodb+srv://ac2265_db_user:kBJqW6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4";
 
