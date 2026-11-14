@@ -90,3 +90,6 @@ app.put("/collection/lessons/:id", async (req, res, next) => {
 app.use(function(request, response) {
     response.status(404).json({ error: "Page or resource not found!" });
 });
+}
+
+startServer();
