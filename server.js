@@ -23,7 +23,7 @@ app.use("/images", express.static(publicPath));
 
 // MongoDB Atlas connection string and global database variables
 var db;
-var mongoURL = "mongodb+srv://ac2265_db_user:kBJqW6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4&tlsAllowInvalidCertificates=true";
+var mongoURL = "mongodb+srv://ac2265_db_user:kBJqW6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4";
 
 // Asynchronous function to initialize MongoDB connection and start Express server
 async function startServer() {
