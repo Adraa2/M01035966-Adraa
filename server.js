@@ -34,13 +34,10 @@ async function startServer() {
         console.log("Connected to MongoDB Atlas successfully!");
 
         // Start the server only after database is connected
-        app.listen(3000, function() {
-            console.log("App started on port 3000");
-        });
-    } catch (err) {
-        console.log("Database connection error: " + err);
-    }
-}
+        const port = process.env.PORT || 3000;
+app.listen(port, function() {
+    console.log("App started on port " + port);
+});
 
 startServer();
 
