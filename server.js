@@ -1,47 +1,38 @@
-// Express.js Backend Server for CST3144 Coursework
-// Handles MongoDB connection, static file middleware, and REST API endpoints
+// Import the express framework to build our server and handle routes
 var express = require("express");
-var cors = require("cors");
-var { MongoClient } = require("mongodb");
 
+// Import CORS so our frontend (GitHub Pages) can talk to our backend (Render)
+var cork = require("cors"); // (or keep var cors = require("cors");)
+var cors = require("cors");
+
+// Import MongoDB to connect to our database
+var { MongoClient, ObjectId } = require("mongodb");
+
+// Import path helper for our static images folder
+var path = require("path");
+
+// Initialize our express app
 var app = express();
 
-// Enable Cross-Origin Resource Sharing (CORS) and parse incoming JSON request bodies
+// Allow cross-origin requests and make sure Express can read JSON data sent from the frontend
 app.use(cors());
 app.use(express.json()); 
 
-// Custom logger middleware to log incoming HTTP request URLs to the terminal console
+// Simple logger middleware to print every incoming request URL in the console
 app.use(function(request, response, next) {
     console.log("In comes a request to: " + request.url);
     next();
 });
 
-// Serve static lesson images from the 'images' directory
-var path = require("path");
+// Setup static file serving so anyone can view our lesson images in the browser
 var publicPath = path.join(__dirname, "images");
 app.use("/images", express.static(publicPath));
 
-// MongoDB Atlas connection string and global database variables
+// Global variables for our database connection and MongoDB Atlas URL
 var db;
-var mongoURL = "mongodb+srv://ac2265_db_user:kBJqW6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4";
+var mongoURL = "mongodb+srv://ac2265_db_user:kBJqw6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4";
 
-// Asynchronous function to initialize MongoDB connection and start Express server
-async function startServer() {
-    try {
-        var client = new MongoClient(mongoURL);
-        await client.connect();
-        db = client.db("coursework");
-        console.log("Connected to MongoDB Atlas successfully!");
-
-        // Start the server only after database is connected
-        const port = process.env.PORT || 3000;
-app.listen(port, function() {
-    console.log("App started on port " + port);
-});
-
-startServer();
-
-// GET endpoint: Fetch all documents dynamically from any MongoDB collection
+// GET route to fetch all documents from any collection (like lessons or users)
 app.get("/collection/:collectionName", async function(request, response) {
     try {
         var collectionName = request.params.collectionName;
@@ -53,7 +44,7 @@ app.get("/collection/:collectionName", async function(request, response) {
     }
 });
 
-// Save a new order to MongoDB orders collection
+// POST route to save a new checkout order into the orders collection
 app.post("/collection/orders", async function(request, response) {
     try {
         var newOrder = request.body;
@@ -65,13 +56,12 @@ app.post("/collection/orders", async function(request, response) {
     }
 });
 
+// PUT route to update lesson spaces (decrement spaces when purchased)
 app.put("/collection/lessons/:id", async (req, res, next) => {
     try {
-        const { ObjectId } = require("mongodb");
         const lessonId = req.params.id;
-        const updateData = req.body; // e.g., { spaces: 4 }
+        const updateData = req.body; // e.g. { spaces: 4 }
 
-        // Update the lesson matching the MongoDB 
         const result = await db.collection("lessons").updateOne(
             { _id: new ObjectId(lessonId) },
             { $set: updateData }
@@ -87,7 +77,12 @@ app.put("/collection/lessons/:id", async (req, res, next) => {
     }
 });
 
-// Asynchronous function to initialize MongoDB connection and start Express server
+// Fallback 404 middleware if someone visits a route that doesn't exist
+app.use(function(request, response) {
+    response.status(404).json({ error: "Page or resource not found!" });
+});
+
+// Connect to MongoDB Atlas first, then start the server on Render's port or local port 3000
 async function startServer() {
     try {
         var client = new MongoClient(mongoURL);
@@ -104,4 +99,5 @@ async function startServer() {
     }
 }
 
+// Kick off the server
 startServer();
