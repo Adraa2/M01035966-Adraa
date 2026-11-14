@@ -87,9 +87,21 @@ app.put("/collection/lessons/:id", async (req, res, next) => {
     }
 });
 
-app.use(function(request, response) {
-    response.status(404).json({ error: "Page or resource not found!" });
-});
+// Asynchronous function to initialize MongoDB connection and start Express server
+async function startServer() {
+    try {
+        var client = new MongoClient(mongoURL);
+        await client.connect();
+        db = client.db("coursework");
+        console.log("Connected to MongoDB Atlas successfully!");
+
+        const port = process.env.PORT || 3000;
+        app.listen(port, function() {
+            console.log("App started on port " + port);
+        });
+    } catch (err) {
+        console.log("Database connection error: " + err);
+    }
 }
 
 startServer();
