@@ -30,7 +30,7 @@ app.use("/images", express.static(publicPath));
 
 // Global variables for our database connection and MongoDB Atlas URL
 var db;
-var mongoURL = "mongodb+srv://ac2265_db_user:kBJqw6Lky5RrXjm3@cluster0.3j9vlmp.mongodb.net/?family=4";
+var mongoURL = "mongodb+srv://ac2265_db_user:Adraa123@cluster0.3j9vlmp.mongodb.net/?family=4";
 
 // GET route to fetch all documents from any collection (like lessons or users)
 app.get("/collection/:collectionName", async function(request, response) {
